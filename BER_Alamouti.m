@@ -45,7 +45,7 @@ for icase = 1:N_case
     elseif icase == 6
         NR = 1;
         NT = 4;
-        power_T = 1;
+        power_T = 1/2;
         y_formula = @(Hiid, frame, noise) frame + [conj(Hiid(:,1)).* noise(:,1)+conj(Hiid(:,2)).*noise(:,2)+conj(Hiid(:,3)).*noise(:,3)+conj(Hiid(:,4)).*noise(:,4) conj(Hiid(:,2)).*noise(:,1)-conj(Hiid(:, 1)).*noise(:,2)-conj(Hiid(:, 4)).*noise(:,3)+conj(Hiid(:, 3)).*noise(:,4) conj(Hiid(:,3)).*noise(:,1)+conj(Hiid(:, 4)).*noise(:,2)-conj(Hiid(:, 1)).*noise(:,3)-conj(Hiid(:, 2)).*noise(:,4) conj(Hiid(:,4)).*noise(:,1)-conj(Hiid(:, 3)).*noise(:,2)+conj(Hiid(:, 2)).*noise(:,3)-conj(Hiid(:, 1)).*noise(:,4)]./(sum(abs(Hiid.^2), 2));
     end
     gs = gss(icase);
@@ -60,7 +60,7 @@ for icase = 1:N_case
             % 生成信道，SIMO有NR个信道
             Hiid = (randn(L_frame,NR*NT)+1j*randn(L_frame,NR*NT))/sqrt(2);
             %  AWGN噪声
-            sigma = sqrt(1/(2*power_T*SNR));
+            sigma = sqrt(NT/(2*SNR));
             noise = sigma*(randn(L_frame, NR*NT) + 1j*randn(L_frame, NR*NT));
             y = y_formula(Hiid, frame_mod, noise);
             % 解调
